@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <locale.h>
 
-float soma_vetores(float *vetor1,float *vetor2,float *vetor_soma,float *quant_numeros){
+float soma_vetores(float *vetor1,float *vetor2,float *vetor_soma,float quant_numeros){
 	int j;
 	for(j = 0;j < quant_numeros;j++){
 		vetor_soma[j] = vetor1[j] + vetor2[j];
