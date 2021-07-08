@@ -1,4 +1,130 @@
 Após pesquisas sobre novas funções, com o objetivo de cronometrar o tempo de execução das operações das funções de ordenação, utilizamos a biblioteca time.h, que possui a função 
 clock(), que grava em uma variável o tempo que foi passado até o momento da gravação, durante a execução do programa. Para fazermos os testes e cronometrar o tempo que levava
-cada uma das funções das questões anteriores, estabelecemos como 5000 a quantidade de números em cada vetor. E também, utilizamos a função rand() para que cada posição do vetor
-recebesse um número gerado aleatoriamente.
+cada uma das funções das questões anteriores, estabelecemos como 30000 a quantidade de números em cada vetor. E também, utilizamos a função rand() para que cada posição do vetor
+recebesse um número gerado aleatoriamente para esse estudo.
+
+Código da questão 13 com as funçôes clock() e rand():
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <time.h>
+
+int main (void){
+	setlocale(LC_ALL,"");
+	
+	float *vetor;
+	int quant_numeros, i, j, aux; 
+	clock_t tempo;
+	clock_t tempo_inicial;
+	clock_t tempo_final;
+	printf("Digite a quantidade de números para a leitura: ");
+	scanf("%d", &quant_numeros);
+
+	vetor = (float *) malloc(quant_numeros * sizeof(float)); //Alocação dinâmica de memória, dependendo do requisito do vetor.
+	
+	system("cls");
+	printf("Números declarados: \n");
+	
+	for(i = 0;i < quant_numeros;i++){
+		vetor[i] = rand();//Cada posição do vetor vai receber um número aleatório devido a função rand().
+		printf("%f\n",vetor[i]);	
+	}
+		
+	tempo = clock();
+	tempo_inicial = clock();
+	for(i = 0;i < quant_numeros;i++){
+		for(j = i + 1;j < quant_numeros;j++){
+			if(vetor[i] > vetor[j]){
+				aux = vetor[j];
+				vetor[j] = vetor[i];
+				vetor[i] = aux;	
+			}
+		}
+	}
+	tempo_final = clock();
+	tempo = clock() - tempo; //Recebe o intervalo de tempo.
+
+	printf("\n Números em ordem crescente: \n");
+	
+	for(i = 0;i < quant_numeros;i++){ //Imprime todos os elementos do vetor.
+		printf("%f\n",vetor[i]);	
+	}
+	printf("\nInstante inicial: %lf segundos.\n",((double)tempo_inicial)/(CLOCKS_PER_SEC));//Imprime o instante inicial de operação.
+	printf("\nInstante final: %lf segundos.\n",((double)tempo_final)/(CLOCKS_PER_SEC));//Imprime o instante final de operação.
+	printf("%lf segundos.\n",((double)tempo)/((CLOCKS_PER_SEC)));//Imprime o intervalo de tempo que dura a operação.			
+	free(vetor);
+	return 0;
+}
+
+Para a quantidade de elementos como 30000 do vetor, o intervalo de tempo registrado em um dos testes para a função de ordenação criada foi de 6.571 segundos.
+Instante inicial de operação no teste citado da função: 27.719 segundos
+Instante final de operação no teste citado da função: 34.290 segundos
+
+Código da questão 14 com as funções clock() e rand():
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <time.h>
+
+int comparador(const void *num1, const void *num2){
+	if (*(float*)num1 > *(float*)num2){
+    	return 1;
+   } else if (*(float*)num1 < *(float*)num2){
+    	return -1;
+   } else{
+    	return 0;
+   }
+}
+
+int main (void){
+	setlocale(LC_ALL,"");
+	
+	float *vetor;
+	int quant_numeros, i, j, aux;
+	clock_t tempo,tempo_inicial,tempo_final; 
+
+	printf("Digite a quantidade de números para a leitura: ");
+	scanf("%d", &quant_numeros);//1º - Digita-se a quantidade de números desejados.
+
+	vetor = (float *) malloc(quant_numeros * sizeof(float));//Faz-se a A.D.M. pra saber quanto que o vetor ai necessitar de memória para elementos do tipo float. 
+	
+	printf("Números declarados: \n"); //Print do vetor desordenado;
+	
+	for(i = 0;i < quant_numeros;i++){// Bloco responsável para digitar os números e serem colocados no vetor
+		vetor[i] = rand();
+		printf("%f\n",vetor[i]);	
+	}
+		
+	printf("\n Números em ordem crescente: \n"); //Print do vetor ordenado;
+	
+	tempo_inicial = clock();
+	tempo = clock();
+	
+	qsort(vetor,quant_numeros, sizeof(float),comparador); // o qsort fará a função de ordenar os elementos dentro do vetor.
+	
+	tempo_final = clock();
+	tempo = clock() - tempo;
+	
+	for(i = 0;i < quant_numeros;i++){
+		printf("%f , ",vetor[i]);	
+	}
+
+	printf("\nInstante inicial: %lf segundos.\n",((double)tempo_inicial)/(CLOCKS_PER_SEC));//Imprime o instante inicial de operação.
+	printf("\nInstante final: %lf segundos.\n",((double)tempo_final)/(CLOCKS_PER_SEC));//Imprime o instante final de operação.
+	printf("%lf segundos.\n",((double)tempo)/((CLOCKS_PER_SEC)));//Imprime o intervalo de tempo que dura a operação.
+				
+	free(vetor);
+	return 0;
+	
+}
+
+Para a quantidade de elementos como 30000 do vetor, o intervalo de tempo registrado para a função qsort em um dos testes foi de 0.008 segundo.
+Instante inicial de operação no teste citado da função qsort: 21.778 segundos.
+Instante final de operação no teste citado da função qsort: 21.786 segundos.
+
+Portanto, diante dos resultados dos testes com cada implementação, pudemos perceber a diferença de tempo de execução muito grande comparada 
+uma com a outra, onde a função qsort mostra-se muito mais prática de utilizar.
+
+
