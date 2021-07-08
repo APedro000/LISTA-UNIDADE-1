@@ -1,1 +1,4 @@
-
+Após pesquisas sobre novas funções, com o objetivo de cronometrar o tempo de execução das operações das funções de ordenação, utilizamos a biblioteca time.h, que possui a função 
+clock(), que grava em uma variável o tempo que foi passado até o momento da gravação, durante a execução do programa. Para fazermos os testes e cronometrar o tempo que levava
+cada uma das funções das questões anteriores, estabelecemos como 5000 a quantidade de números em cada vetor. E também, utilizamos a função rand() para que cada posição do vetor
+recebesse um número gerado aleatoriamente.
